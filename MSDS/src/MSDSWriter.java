@@ -1,6 +1,9 @@
 import java.io.*;
 /*
 * @author Pranav
+* @version 1.2
+* 
+* Generate output text files in a sub-directory
 */
 public class MSDSWriter {
     FileWriter fstream;
@@ -14,6 +17,11 @@ public class MSDSWriter {
         }
     }
 
+    /**
+     * Writes a single chemical and its MSDS
+     * @param chemical		-- chemical name
+     * @param text			-- MSDS text
+     */
     public void write(String chemical, String text) {
         try {
             out.append(chemical.replace('+', ' '));
@@ -29,6 +37,10 @@ public class MSDSWriter {
             System.err.println("Error: " + e.getMessage());
         }
     }
+    
+    /**
+     * closes the file writer
+     */
     public void close() {
         try {
         	out.close();

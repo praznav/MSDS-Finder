@@ -1,6 +1,9 @@
 /**
 *
 * @author Pranav
+* @version 1.2
+* 
+* Object representation of a Material Safety Data Sheet
 */
 public class MSDS {
     String name;

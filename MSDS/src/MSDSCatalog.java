@@ -13,13 +13,18 @@ import java.io.*;
 /**
 *
 * @author Pranav
+* @version 1.2
+* 
+* Execute a query on the "friendly" chemical name, and get a result
+* See if this result is valid for our purposes
+* In terms of priority: Safety Card URL is preferred, then Fisher URL, then go through remaining links
 */
 
 public class MSDSCatalog {
 
     HttpClient client;
     String URLhere = "http://hazard.com/msds/gn.cgi?query="; // this is the generic part of the URL common to every site
-    ArrayList<String> errorsHere;
+    ArrayList<String> errorsHere;		// list of the error chemicals
     MSDS chemicalsMSDS;
     String body;
     String edittedBody;
@@ -30,6 +35,11 @@ public class MSDSCatalog {
 
     }
 
+	/**
+	 * query method
+	 * @param chemical		- input chemical name
+	 * @return MSDS of the inputted chemical
+	 */
     public MSDS query(String chemical) {
         try {
             URLhere = "http://hazard.com/msds/gn.cgi?query="; // this is the generic part of the URL common to every site
@@ -57,18 +67,14 @@ public class MSDSCatalog {
                 System.out.println("THIS WILL BE ADDED TO THE ERROR LIST");
                 errorsHere.add(chemical);
             }
-
-
-
-
         } catch (IOException e) {
             System.out.println(e.getMessage());
             System.out.println("error! u suck at this ");
-
         }
         return chemicalsMSDS;
     }
 
+    // helper method for query
     private MSDS getMSDS() {
         boolean hasSafetyCard = (body.indexOf("mf/cards/file") >= 0);
         boolean hasFisher = (body.indexOf("fscim") >= 0);
@@ -85,6 +91,8 @@ public class MSDSCatalog {
         return chemicalsMSDS;
     }
 
+    // helper method for getMSDS
+    // Try 1
     private MSDS retrieveSafetyCard() {
         try {
             Document abc = Jsoup.connect(URLhere).get();
@@ -113,6 +121,8 @@ public class MSDSCatalog {
 
     }
 
+    // helper method for getMSDS
+    // Try 2
     private MSDS retrieveFisher() {
         try {
             Document abc = Jsoup.connect(URLhere).get();
@@ -139,6 +149,8 @@ public class MSDSCatalog {
         return chemicalsMSDS;
     }
 
+    // helper method for getMSDS
+    // Try 3
     private MSDS retrieveMSDS() {
         try {
             Document abc = Jsoup.connect(URLhere).get();

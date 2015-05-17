@@ -3,6 +3,11 @@ import java.io.*;
 /**
 *
 * @author Pranav
+* @version 1.2 
+* 
+* Compile a chemical list as an array object of some kind
+* Convert a chemical name with spaces into a URL friendly parameter list
+* 
 */
 public class ChemicalReader {
 
@@ -14,6 +19,11 @@ public class ChemicalReader {
         name = filename;
     }
 
+    
+    /**
+     * 
+     * @return ArrayList<String> is a list of all chemical names
+     */
     public ArrayList<String> getChemicalNames() {
         try {
             FileReader input = new FileReader(name);
